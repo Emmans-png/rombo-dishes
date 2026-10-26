@@ -22,7 +22,7 @@
     <h1>Track your order</h1>
     <p class="intro">Enter the order reference from checkout and the phone number used to place it. Your details are checked privately before tracking is shown.</p>
     <form id="tracking-form" class="lookup">
-      <label>Order reference<input name="order_number" required autocomplete="off" placeholder="ROM-20261026-..."></label>
+      <label>Order reference<input name="order_number" required autocomplete="off" placeholder="ROM-20261026-..."><select id="saved-order-history" aria-label="Choose a recent order" hidden style="width:100%;padding:10px;margin-top:8px;border:1px solid #cfc1ac;border-radius:8px;background:white;font:inherit"><option value="">Choose a recent order</option></select></label>
       <label>Checkout phone number<input name="phone" required type="tel" autocomplete="tel" placeholder="07xx xxx xxx"></label>
       <button type="submit">Find order</button>
     </form>

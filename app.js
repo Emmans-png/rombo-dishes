@@ -9,6 +9,15 @@
   const form = document.getElementById('checkout-form');
   const cart = new Map();
   let client = null;
+  function rememberOrder(orderNumber) {
+    try {
+      const history = JSON.parse(localStorage.getItem('rombo-order-history') || '[]');
+      const nextHistory = [{orderNumber, savedAt: new Date().toISOString()}, ...history.filter(item => item.orderNumber !== orderNumber)].slice(0, 20);
+      localStorage.setItem('rombo-order-history', JSON.stringify(nextHistory));
+    } catch (error) {
+      console.warn('Could not save local order history.', error);
+    }
+  }
   function openPriceModal(itemName) {
     const modal = document.getElementById('price-enquiry-modal');
     if (!modal) return;
@@ -114,8 +123,11 @@
       const {data,error}=await client.functions.invoke('place-order',{body:payload});
       if(error) throw error;
       if(!data?.order_number) throw new Error(data?.error || 'The server did not confirm the order.');
+      rememberOrder(data.order_number);
+      const trackAfterOrder = document.getElementById('track-after-order');
+      trackAfterOrder.href=`track.html?order=${encodeURIComponent(data.order_number)}`;
+      trackAfterOrder.hidden=false;
       message.textContent=`Order received! Your reference is ${data.order_number}. Payment: ${data.payment_message || 'Pay on pickup/delivery.'} Please call Rombo to confirm fulfilment.`;
-      const trackingLink=document.createElement('a');trackingLink.href=`track.html?order=${encodeURIComponent(data.order_number)}`;trackingLink.textContent='Track this order';message.append(document.createElement('br'),trackingLink);
       cart.clear(); drawCart(); form.reset(); document.getElementById('delivery-address').required=false;
     } catch(err) { console.error(err); message.textContent='Order was not confirmed. Please check the setup and try again, or call Rombo Dishes. Details: '+(err.message||'request failed'); }
     finally {submit.disabled=false;submit.textContent='Place order';}

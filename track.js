@@ -7,6 +7,7 @@
   const enquiryForm = document.getElementById('enquiry-lookup-form');
   const enquiryMessage = document.getElementById('enquiry-message');
   const enquiryResult = document.getElementById('enquiry-result');
+  const savedOrders = document.getElementById('saved-order-history');
   const stages = [
     ['received', 'Received'],
     ['confirmed', 'Confirmed'],
@@ -18,6 +19,27 @@
   const labels = Object.fromEntries(stages);
   labels.cancelled = 'Cancelled';
   const money = value => new Intl.NumberFormat('en-KE', { style: 'currency', currency: 'KES' }).format(Number(value || 0));
+
+  function loadOrderHistory() {
+    try {
+      const history = JSON.parse(localStorage.getItem('rombo-order-history') || '[]');
+      for (const item of history) {
+        if (!item?.orderNumber) continue;
+        const option = document.createElement('option');
+        option.value = item.orderNumber;
+        const savedDate = item.savedAt ? new Date(item.savedAt).toLocaleDateString() : '';
+        option.textContent = savedDate ? `${item.orderNumber} · ${savedDate}` : item.orderNumber;
+        savedOrders.append(option);
+      }
+      savedOrders.hidden = history.length === 0;
+    } catch (error) {
+      savedOrders.hidden = true;
+    }
+  }
+
+  savedOrders.addEventListener('change', () => {
+    if (savedOrders.value) form.elements.order_number.value = savedOrders.value;
+  });
 
   function renderOrder(order) {
     document.getElementById('result-reference').textContent = order.order_number;
@@ -132,7 +154,11 @@
   });
 
   const orderFromLink = new URLSearchParams(window.location.search).get('order');
-  if (orderFromLink) form.elements.order_number.value = orderFromLink;
+  loadOrderHistory();
+  if (orderFromLink) {
+    form.elements.order_number.value = orderFromLink;
+    savedOrders.value = orderFromLink;
+  }
   const enquiryFromLink = new URLSearchParams(window.location.search).get('enquiry');
   if (enquiryFromLink) enquiryForm.elements.enquiry_id.value = enquiryFromLink;
 })();
