@@ -1,6 +1,7 @@
 (() => {
   const url = window.ROMBO_SUPABASE_URL || '';
   const key = window.ROMBO_SUPABASE_ANON_KEY || '';
+  const orderSearchForm = document.getElementById('order-search-form');
   const form = document.getElementById('tracking-form');
   const message = document.getElementById('tracking-message');
   const result = document.getElementById('tracking-result');
@@ -8,7 +9,6 @@
   const enquiryMessage = document.getElementById('enquiry-message');
   const enquiryResult = document.getElementById('enquiry-result');
   const savedOrders = document.getElementById('saved-order-history');
-  const orderReferenceInput = form.elements.order_number;
   const stages = [
     ['received', 'Received'],
     ['confirmed', 'Confirmed'],
@@ -20,40 +20,47 @@
   const labels = Object.fromEntries(stages);
   labels.cancelled = 'Cancelled';
   const money = value => new Intl.NumberFormat('en-KE', { style: 'currency', currency: 'KES' }).format(Number(value || 0));
+  const linkedOrderNumber = new URLSearchParams(window.location.search).get('order');
 
-  function loadOrderHistory() {
+  orderSearchForm.addEventListener('submit', async event => {
+    event.preventDefault();
+    result.hidden = true;
+    message.textContent = '';
+    form.hidden = true;
+    const submit = orderSearchForm.querySelector('button[type="submit"]');
+    submit.disabled = true;
+    submit.textContent = 'Searching…';
     try {
-      const history = JSON.parse(localStorage.getItem('rombo-order-history') || '[]');
-      savedOrders.querySelectorAll('option:not(:first-child):not(:last-child)').forEach(option => option.remove());
-      for (const item of history) {
-        if (!item?.orderNumber) continue;
-        const option = document.createElement('option');
-        option.value = item.orderNumber;
-        const savedDate = item.savedAt ? new Date(item.savedAt).toLocaleDateString() : '';
-        option.textContent = savedDate ? `${item.orderNumber} · ${savedDate}` : item.orderNumber;
-        savedOrders.insertBefore(option, savedOrders.lastElementChild);
+      if (!window.supabase || !url.startsWith('https://') || !key) throw new Error('Order tracking is not configured. Please contact Rombo Dishes.');
+      const phone = String(new FormData(orderSearchForm).get('phone') || '').trim();
+      const db = window.supabase.createClient(url, key);
+      const { data, error } = await db.functions.invoke('find-orders', { body: { phone } });
+      if (error) {
+        let detail;
+        try { detail = await error.context?.json(); } catch { /* Use the generic message below. */ }
+        throw new Error(detail?.error || 'Could not search orders. Check the phone number and try again.');
       }
-      savedOrders.hidden = history.length === 0;
-      savedOrders.required = history.length > 0;
-      orderReferenceInput.hidden = history.length > 0;
-      orderReferenceInput.required = history.length === 0;
+      const orders = data?.orders || [];
+      savedOrders.replaceChildren(new Option('Choose an order', ''));
+      for (const order of orders) {
+        const date = new Date(order.created_at).toLocaleDateString();
+        savedOrders.add(new Option(`${order.order_number} · ${date}`, order.order_number));
+      }
+      if (!orders.length) {
+        message.textContent = 'No orders were found for that phone number.';
+        return;
+      }
+      form.elements.phone.value = phone;
+      form.hidden = false;
+      if (linkedOrderNumber && orders.some(order => order.order_number === linkedOrderNumber)) {
+        savedOrders.value = linkedOrderNumber;
+      }
+      message.textContent = `Found ${orders.length} order${orders.length === 1 ? '' : 's'}. Choose one to see its status.`;
     } catch (error) {
-      savedOrders.hidden = true;
-      savedOrders.required = false;
-      orderReferenceInput.hidden = false;
-      orderReferenceInput.required = true;
-    }
-  }
-
-  savedOrders.addEventListener('change', () => {
-    const enteringManualReference = savedOrders.value === '__manual__';
-    orderReferenceInput.hidden = !enteringManualReference;
-    orderReferenceInput.required = enteringManualReference;
-    if (enteringManualReference) {
-      orderReferenceInput.value = '';
-      orderReferenceInput.focus();
-    } else if (savedOrders.value) {
-      orderReferenceInput.value = savedOrders.value;
+      message.textContent = error.message || 'Could not search orders. Please try again.';
+    } finally {
+      submit.disabled = false;
+      submit.textContent = 'Find my orders';
     }
   });
 
@@ -169,22 +176,6 @@
     }
   });
 
-  const orderFromLink = new URLSearchParams(window.location.search).get('order');
-  loadOrderHistory();
-  if (orderFromLink) {
-    const matchingOption = [...savedOrders.options].find(option => option.value === orderFromLink);
-    if (matchingOption) {
-      savedOrders.value = orderFromLink;
-      orderReferenceInput.value = orderFromLink;
-      orderReferenceInput.hidden = true;
-      orderReferenceInput.required = false;
-    } else {
-      savedOrders.value = '__manual__';
-      orderReferenceInput.value = orderFromLink;
-      orderReferenceInput.hidden = false;
-      orderReferenceInput.required = true;
-    }
-  }
   const enquiryFromLink = new URLSearchParams(window.location.search).get('enquiry');
   if (enquiryFromLink) enquiryForm.elements.enquiry_id.value = enquiryFromLink;
 })();
