@@ -9,6 +9,29 @@
   const form = document.getElementById('checkout-form');
   const cart = new Map();
   let client = null;
+  function openPriceModal(itemName) {
+    const modal = document.getElementById('price-enquiry-modal');
+    if (!modal) return;
+    const itemField = document.getElementById('enquiry-item-name');
+    const nameField = document.getElementById('enquiry-name');
+    const phoneField = document.getElementById('enquiry-phone');
+    const noteField = document.getElementById('enquiry-message');
+    itemField.value = itemName;
+    nameField.value = '';
+    phoneField.value = '';
+    noteField.value = '';
+    modal.hidden = false;
+    nameField.focus();
+  }
+  document.addEventListener('click', async (event) => {
+    const trigger = event.target.closest('.ask-price-btn');
+    if (trigger) {
+      openPriceModal(trigger.dataset.item || 'This item');
+    }
+    if (event.target.closest('[data-close-price-modal]')) {
+      document.getElementById('price-enquiry-modal').hidden = true;
+    }
+  });
   const ready = window.supabase && url.startsWith('https://') && !url.includes('YOUR_PROJECT_ID') && key && !key.includes('YOUR_SUPABASE');
   const money = n => new Intl.NumberFormat('en-KE', {maximumFractionDigits: 2}).format(Number(n || 0));
   const safe = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -35,6 +58,40 @@
       drawCart(); message.textContent=`Added ${item.name} to your order.`;
     }));
   }
+  document.getElementById('price-enquiry-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!window.supabase || !url.startsWith('https://') || !key) {
+      message.textContent = 'Price enquiry is not configured yet.';
+      return;
+    }
+    const formData = new FormData(event.target);
+    const payload = {
+      item_name: String(formData.get('item_name') || '').trim(),
+      customer_name: String(formData.get('customer_name') || '').trim(),
+      phone: String(formData.get('phone') || '').trim(),
+      customer_message: String(formData.get('customer_message') || '').trim(),
+    };
+    if (!payload.item_name || payload.customer_name.length < 2 || payload.phone.length < 7) {
+      message.textContent = 'Please enter your name and a valid phone number.';
+      return;
+    }
+    const db = window.supabase.createClient(url, key);
+    const inquiryId = crypto.randomUUID();
+    const { error } = await db.from('menu_price_inquiries').insert({ ...payload, id: inquiryId });
+    if (error) {
+      message.textContent = 'Could not send your enquiry. Please call Rombo Dishes instead.';
+      console.error(error);
+      return;
+    }
+    document.getElementById('price-enquiry-modal').hidden = true;
+    message.textContent = `Thanks! Your enquiry reference is ${inquiryId}. Keep it private. Use it with your phone number on the tracking page to check Rombo's reply.`;
+    const trackLink = document.createElement('a');
+    trackLink.href = `track.html?enquiry=${encodeURIComponent(inquiryId)}`;
+    trackLink.textContent = 'Check your reply';
+    message.appendChild(document.createElement('br'));
+    message.appendChild(trackLink);
+    event.target.reset();
+  });
   if (!ready) {
     setStatus('Setup required: create a Supabase project, run supabase/schema.sql, then fill in supabase-config.js.', true);
     menuEl.innerHTML='<p>Once Supabase is configured and menu items are added in the admin dashboard, customers can add them here.</p>';

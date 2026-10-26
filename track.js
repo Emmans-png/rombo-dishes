@@ -4,6 +4,9 @@
   const form = document.getElementById('tracking-form');
   const message = document.getElementById('tracking-message');
   const result = document.getElementById('tracking-result');
+  const enquiryForm = document.getElementById('enquiry-lookup-form');
+  const enquiryMessage = document.getElementById('enquiry-message');
+  const enquiryResult = document.getElementById('enquiry-result');
   const stages = [
     ['received', 'Received'],
     ['confirmed', 'Confirmed'],
@@ -86,6 +89,50 @@
     }
   });
 
+  enquiryForm.addEventListener('submit', async event => {
+    event.preventDefault();
+    enquiryMessage.textContent = '';
+    enquiryResult.hidden = true;
+    const submit = enquiryForm.querySelector('button[type="submit"]');
+    submit.disabled = true;
+    submit.textContent = 'Checking…';
+    try {
+      if (!window.supabase || !url.startsWith('https://') || !key) throw new Error('Price enquiry replies are not configured yet.');
+      const values = new FormData(enquiryForm);
+      const db = window.supabase.createClient(url, key);
+      const { data, error } = await db.rpc('get_my_price_enquiries', {
+        p_enquiry_id: String(values.get('enquiry_id') || '').trim(),
+        p_phone: String(values.get('phone') || '').trim(),
+      });
+      if (error) throw error;
+      if (!data || !data.length) {
+        enquiryMessage.textContent = 'No enquiry was found for that reference and phone number.';
+        return;
+      }
+
+      const item = data[0];
+      document.getElementById('enquiry-item').textContent = item.item_name;
+      document.getElementById('enquiry-status').textContent = item.status === 'replied' ? 'Replied' : item.status || 'New';
+      const body = document.getElementById('enquiry-body');
+      body.replaceChildren();
+      const submitted = document.createElement('p');
+      submitted.textContent = `Submitted: ${new Date(item.created_at).toLocaleString()}`;
+      const customerMessage = document.createElement('p');
+      customerMessage.textContent = `Your message: ${item.customer_message || 'No extra note provided.'}`;
+      const reply = document.createElement('p');
+      reply.textContent = `Rombo reply: ${item.admin_reply || 'No reply yet. Please check again later or call Rombo Dishes.'}`;
+      body.append(submitted, customerMessage, reply);
+      enquiryResult.hidden = false;
+    } catch (error) {
+      enquiryMessage.textContent = error.message || 'Could not find your enquiry reply yet.';
+    } finally {
+      submit.disabled = false;
+      submit.textContent = 'Check reply';
+    }
+  });
+
   const orderFromLink = new URLSearchParams(window.location.search).get('order');
   if (orderFromLink) form.elements.order_number.value = orderFromLink;
+  const enquiryFromLink = new URLSearchParams(window.location.search).get('enquiry');
+  if (enquiryFromLink) enquiryForm.elements.enquiry_id.value = enquiryFromLink;
 })();

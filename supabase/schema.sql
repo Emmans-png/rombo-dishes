@@ -35,12 +35,21 @@ create table if not exists public.orders (
   order_status text not null default 'received' check (order_status in ('received','confirmed','preparing','ready','out_for_delivery','completed','cancelled')),
   notes text not null default '' check (char_length(notes) <= 500),
   total_kes numeric(10,2) not null check (total_kes > 0),
+  tracking_update text not null default '' check (char_length(tracking_update) <= 500),
   created_at timestamptz not null default now()
 );
 
-alter table public.orders
-  add column if not exists tracking_update text not null default ''
-  check (char_length(tracking_update) <= 500);
+create table if not exists public.menu_price_inquiries (
+  id uuid primary key default gen_random_uuid(),
+  item_name text not null check (char_length(item_name) between 1 and 100),
+  customer_name text not null check (char_length(customer_name) between 1 and 100),
+  phone text not null check (char_length(phone) between 7 and 20),
+  customer_message text not null default '' check (char_length(customer_message) <= 500),
+  admin_reply text not null default '' check (char_length(admin_reply) <= 500),
+  status text not null default 'new' check (status in ('new','replied','closed')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
 
 create table if not exists public.order_items (
   id uuid primary key default gen_random_uuid(),
@@ -56,6 +65,7 @@ alter table public.admin_users enable row level security;
 alter table public.menu_items enable row level security;
 alter table public.orders enable row level security;
 alter table public.order_items enable row level security;
+alter table public.menu_price_inquiries enable row level security;
 
 drop policy if exists "Admins can read own admin record" on public.admin_users;
 create policy "Admins can read own admin record" on public.admin_users for select to authenticated using (user_id = auth.uid());
@@ -70,8 +80,35 @@ drop policy if exists "Admins update orders" on public.orders;
 create policy "Admins update orders" on public.orders for update to authenticated using (public.is_rombo_admin()) with check (public.is_rombo_admin());
 drop policy if exists "Admins read order items" on public.order_items;
 create policy "Admins read order items" on public.order_items for select to authenticated using (public.is_rombo_admin());
+
+drop policy if exists "Anyone can submit price enquiry" on public.menu_price_inquiries;
+create policy "Anyone can submit price enquiry" on public.menu_price_inquiries for insert to anon, authenticated with check (char_length(customer_name) between 1 and 100 and char_length(phone) between 7 and 20 and char_length(item_name) between 1 and 100);
+drop policy if exists "Admins read price enquiries" on public.menu_price_inquiries;
+create policy "Admins read price enquiries" on public.menu_price_inquiries for select to authenticated using (public.is_rombo_admin());
+drop policy if exists "Admins update price enquiries" on public.menu_price_inquiries;
+create policy "Admins update price enquiries" on public.menu_price_inquiries for update to authenticated using (public.is_rombo_admin()) with check (public.is_rombo_admin());
 -- Orders are created only by the place-order Edge Function using server-side service-role access.
 -- Do not add public INSERT policies on orders/order_items.
+
+create or replace function public.get_my_price_enquiries(p_enquiry_id uuid, p_phone text)
+returns table (
+  item_name text,
+  customer_message text,
+  admin_reply text,
+  status text,
+  created_at timestamptz
+)
+language sql
+security definer
+set search_path = public
+as $$
+  select q.item_name, q.customer_message, q.admin_reply, q.status, q.created_at
+  from public.menu_price_inquiries as q
+  where q.id = p_enquiry_id
+    and q.phone = p_phone;
+$$;
+revoke all on function public.get_my_price_enquiries(uuid, text) from public;
+grant execute on function public.get_my_price_enquiries(uuid, text) to anon, authenticated;
 
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values (

@@ -33,6 +33,20 @@
       <div id="tracking-note" class="tracking-note" hidden></div>
       <div class="order-meta"><div><h3>Your items</h3><ul id="result-items" class="items"></ul><p id="result-total"></p></div><div><h3>Fulfilment</h3><p id="result-fulfilment"></p><p id="result-date"></p></div></div>
     </section>
+
+    <div class="eyebrow" style="margin-top:32px">Price enquiry replies</div>
+    <h2 style="margin-top:10px">Check your reply</h2>
+    <p class="intro">Enter the private enquiry reference shown after you submitted your question and the phone number you used.</p>
+    <form id="enquiry-lookup-form" class="lookup">
+      <label>Enquiry reference<input name="enquiry_id" required autocomplete="off" placeholder="Paste your enquiry reference"></label>
+      <label>Phone number<input name="phone" required type="tel" autocomplete="tel" placeholder="07xx xxx xxx"></label>
+      <button type="submit">Check reply</button>
+    </form>
+    <p id="enquiry-message" class="message" role="status" aria-live="polite"></p>
+    <section id="enquiry-result" class="result" hidden aria-live="polite">
+      <div class="order-head"><div><div class="eyebrow">Reply</div><h2 id="enquiry-item"></h2></div><span id="enquiry-status" class="badge"></span></div>
+      <div id="enquiry-body" style="margin-top:18px;line-height:1.8"></div>
+    </section>
   </main>
   <footer class="foot"><div class="wrap">Need help? <a href="https://wa.me/254115631411">Contact Rombo Dishes on WhatsApp</a>.</div></footer>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
