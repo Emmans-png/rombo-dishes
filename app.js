@@ -12,7 +12,7 @@
   function rememberOrder(orderNumber) {
     try {
       const history = JSON.parse(localStorage.getItem('rombo-order-history') || '[]');
-      const nextHistory = [{orderNumber, savedAt: new Date().toISOString()}, ...history.filter(item => item.orderNumber !== orderNumber)].slice(0, 20);
+      const nextHistory = [{orderNumber, savedAt: new Date().toISOString()}, ...history.filter(item => item.orderNumber !== orderNumber)].slice(0, 100);
       localStorage.setItem('rombo-order-history', JSON.stringify(nextHistory));
     } catch (error) {
       console.warn('Could not save local order history.', error);

@@ -8,6 +8,7 @@
   const enquiryMessage = document.getElementById('enquiry-message');
   const enquiryResult = document.getElementById('enquiry-result');
   const savedOrders = document.getElementById('saved-order-history');
+  const orderReferenceInput = form.elements.order_number;
   const stages = [
     ['received', 'Received'],
     ['confirmed', 'Confirmed'],
@@ -23,22 +24,37 @@
   function loadOrderHistory() {
     try {
       const history = JSON.parse(localStorage.getItem('rombo-order-history') || '[]');
+      savedOrders.querySelectorAll('option:not(:first-child):not(:last-child)').forEach(option => option.remove());
       for (const item of history) {
         if (!item?.orderNumber) continue;
         const option = document.createElement('option');
         option.value = item.orderNumber;
         const savedDate = item.savedAt ? new Date(item.savedAt).toLocaleDateString() : '';
         option.textContent = savedDate ? `${item.orderNumber} · ${savedDate}` : item.orderNumber;
-        savedOrders.append(option);
+        savedOrders.insertBefore(option, savedOrders.lastElementChild);
       }
       savedOrders.hidden = history.length === 0;
+      savedOrders.required = history.length > 0;
+      orderReferenceInput.hidden = history.length > 0;
+      orderReferenceInput.required = history.length === 0;
     } catch (error) {
       savedOrders.hidden = true;
+      savedOrders.required = false;
+      orderReferenceInput.hidden = false;
+      orderReferenceInput.required = true;
     }
   }
 
   savedOrders.addEventListener('change', () => {
-    if (savedOrders.value) form.elements.order_number.value = savedOrders.value;
+    const enteringManualReference = savedOrders.value === '__manual__';
+    orderReferenceInput.hidden = !enteringManualReference;
+    orderReferenceInput.required = enteringManualReference;
+    if (enteringManualReference) {
+      orderReferenceInput.value = '';
+      orderReferenceInput.focus();
+    } else if (savedOrders.value) {
+      orderReferenceInput.value = savedOrders.value;
+    }
   });
 
   function renderOrder(order) {
@@ -156,8 +172,18 @@
   const orderFromLink = new URLSearchParams(window.location.search).get('order');
   loadOrderHistory();
   if (orderFromLink) {
-    form.elements.order_number.value = orderFromLink;
-    savedOrders.value = orderFromLink;
+    const matchingOption = [...savedOrders.options].find(option => option.value === orderFromLink);
+    if (matchingOption) {
+      savedOrders.value = orderFromLink;
+      orderReferenceInput.value = orderFromLink;
+      orderReferenceInput.hidden = true;
+      orderReferenceInput.required = false;
+    } else {
+      savedOrders.value = '__manual__';
+      orderReferenceInput.value = orderFromLink;
+      orderReferenceInput.hidden = false;
+      orderReferenceInput.required = true;
+    }
   }
   const enquiryFromLink = new URLSearchParams(window.location.search).get('enquiry');
   if (enquiryFromLink) enquiryForm.elements.enquiry_id.value = enquiryFromLink;
