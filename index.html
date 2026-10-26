@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#18291f">
+<meta name="description" content="Discover flavour-packed Swahili dishes at Rombo Dishes on Gandhi Avenue, Nairobi. Generous portions, coastal flavour and a satisfying lunch.">
+<title>Rombo Dishes | A Taste of the Swahili Coast</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--green:#18291f;--green2:#294b37;--cream:#fff8ec;--orange:#e87935;--gold:#e8bd72;--muted:#756e62;--line:#e9dfce}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--green);font-family:"DM Sans",sans-serif}a{color:inherit;text-decoration:none}.wrap{width:min(1160px,92%);margin:auto}
+.top{background:var(--green);color:#f7e9d4;text-align:center;padding:10px;font-size:.82rem;letter-spacing:.05em}
+header{position:sticky;top:0;z-index:9;background:#fff8ecef;backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}.nav{height:78px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.brand{display:flex;gap:11px;align-items:center;font-weight:800;font-size:1.05rem;letter-spacing:-.04em}.logo{width:44px;height:44px;background:var(--orange);color:#fff;border-radius:50% 50% 50% 12px;display:grid;place-items:center;font-size:1.4rem}.brand small{display:block;font-size:.61rem;letter-spacing:.17em;color:var(--muted);margin-top:3px}
+.links{display:flex;gap:26px;font-size:.9rem;font-weight:700}.links a:hover{color:var(--orange)}.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:var(--orange);color:#fff;border:0;border-radius:999px;padding:14px 21px;font-weight:800;box-shadow:0 8px 22px #b9562528;transition:.2s}.btn:hover{transform:translateY(-2px);background:#cf5f24}.btn.dark{background:var(--green);box-shadow:none}.btn.light{background:transparent;color:var(--green);border:1px solid #cfc1ac;box-shadow:none}
+.actions .btn.light:hover{background:var(--orange);border-color:var(--orange);color:#fff}
+.btn.whatsapp{background:#25d366;box-shadow:none}.btn.whatsapp:hover{background:#1fb85a}
+.hero{padding:64px 0 76px;background:radial-gradient(circle at 80% 30%,#f3d9ac 0,transparent 31%),var(--cream);overflow:hidden}.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}.eyebrow{display:inline-flex;background:#f8e5c9;color:#8e4a22;padding:8px 13px;border-radius:999px;text-transform:uppercase;letter-spacing:.12em;font-size:.73rem;font-weight:800}
+h1,h2{font-family:"Playfair Display",serif;letter-spacing:-.045em}h1{font-size:clamp(3.2rem,6vw,5.6rem);line-height:.98;margin:22px 0}h1 em{font-style:normal;color:var(--orange)}.lead{font-size:1.08rem;color:var(--muted);line-height:1.8;max-width:520px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin:26px 0}.micro{display:flex;gap:10px;align-items:center;font-size:.85rem;color:var(--muted)}.micro strong{color:var(--green)}
+.hero-visual{min-height:470px;position:relative;display:grid;place-items:center}.hero-img{width:100%;height:450px;object-fit:cover;border-radius:45% 45% 22px 22px;box-shadow:0 25px 70px #40261524}.float{position:absolute;background:#fffdf8;padding:15px 18px;border-radius:16px;box-shadow:0 12px 35px #2a1b101c}.float strong{display:block}.float small{color:var(--muted)}.f1{left:-15px;bottom:62px}.f2{right:-12px;top:50px}
+.marquee{background:var(--orange);color:#fff;padding:16px;text-align:center;text-transform:uppercase;letter-spacing:.13em;font-weight:800;font-size:.8rem}.marquee span{padding:0 18px;color:#ffe0ad}
+section{padding:82px 0}.head{text-align:center;max-width:670px;margin:0 auto 38px}.head h2{font-size:clamp(2.3rem,4vw,3.45rem);line-height:1.08;margin:16px 0}.head p{color:var(--muted);line-height:1.75}.menu{background:#fffdf8}.food-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.food{background:white;border:1px solid #eee3d3;border-radius:21px;overflow:hidden;transition:.2s}.food:hover{transform:translateY(-5px);box-shadow:0 18px 40px #33231312}.food img{width:100%;height:215px;object-fit:cover;display:block}.food-body{padding:19px}.food h3{margin:0 0 8px;font-size:1.08rem}.food p{font-size:.88rem;color:var(--muted);line-height:1.65;margin-bottom:17px}.food-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px}.pill{font-size:.7rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:#e9f0e6;color:#34583d;border-radius:999px;padding:7px 9px}.ask{font-size:.82rem;font-weight:800;color:var(--orange)}
+.value{background:var(--green);color:#fff}.value .head p{color:#c7d0c4}.value-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.value-card{padding:27px;border:1px solid #ffffff25;border-radius:20px;background:#ffffff08}.ico{width:48px;height:48px;display:grid;place-items:center;background:#e8793526;color:var(--gold);border-radius:15px;font-size:1.4rem;margin-bottom:20px}.value-card h3{margin:0 0 10px}.value-card p{color:#c7d0c4;font-size:.9rem;line-height:1.7;margin:0}
+.story-grid{display:grid;grid-template-columns:.95fr 1.05fr;align-items:center;gap:55px}.story-img{width:100%;height:460px;object-fit:cover;border-radius:25px}.story-copy h2{font-size:clamp(2.2rem,4vw,3.4rem);line-height:1.08;margin:18px 0}.story-copy p{color:var(--muted);line-height:1.85}.check{display:flex;gap:10px;margin:14px 0;font-weight:700}.check span{color:var(--orange)}
+.cta{padding-top:0}.cta-box{border-radius:27px;background:linear-gradient(115deg,#244b34,#18291f);color:white;padding:44px;display:flex;justify-content:space-between;align-items:center;gap:24px;position:relative;overflow:hidden}.cta-box:after{content:"✦";position:absolute;font-size:17rem;color:#ffffff0b;right:25%;top:-100px}.cta-box h2{font-size:clamp(2rem,4vw,3.2rem);margin:0 0 10px;max-width:600px}.cta-box p{margin:0;color:#d3ddcf}.cta-box .btn{position:relative;z-index:1;white-space:nowrap}
+.contact{background:#f0e6d6}.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start}.contact h2{font-size:clamp(2.3rem,4vw,3.4rem);margin:16px 0}.contact p{color:var(--muted);line-height:1.75}.details{background:#fffdf8;padding:25px;border-radius:22px;margin-top:23px}.detail{display:flex;gap:13px;margin:17px 0}.detail-icon{width:42px;height:42px;border-radius:13px;background:#fbe8d7;color:var(--orange);display:grid;place-items:center;flex-shrink:0}.detail small{display:block;color:var(--muted);margin-bottom:4px}.map{border:0;width:100%;height:370px;border-radius:22px;background:#ddd}.note{font-size:.78rem;text-align:center;color:#8a7a6a;margin-top:22px;line-height:1.6}
+footer{background:#111c15;color:#d4dfd1;padding:28px 0}.foot{display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap;font-size:.82rem}.foot strong{color:white}.footlinks{display:flex;gap:18px}
+@media(max-width:800px){.links{display:none}.hero-grid,.story-grid,.contact-grid{grid-template-columns:1fr}.hero-visual{order:-1;min-height:380px}.hero-img{height:360px;width:92%}.f1{left:0;bottom:35px}.f2{right:0;top:30px}.food-grid{grid-template-columns:repeat(2,1fr)}.value-grid{grid-template-columns:1fr}.story-img{height:340px}.cta-box{flex-direction:column;align-items:flex-start}.cta-box:after{right:-10%}}
+@media(max-width:520px){.food-grid{grid-template-columns:1fr}.food img{height:230px}.hero{padding-top:35px}.hero-visual{min-height:320px}.hero-img{height:305px}.actions .btn{width:100%}.cta-box{padding:28px}section{padding:62px 0}.foot{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<div class="top">🌴 Swahili flavour, generous plates, and a proper lunch worth looking forward to.</div>
+<header><div class="wrap nav">
+<a class="brand" href="#home"><span class="logo">✦</span><span>ROMBO DISHES<small>SWAHILI CUISINE · NAIROBI</small></span></a>
+<nav class="links"><a href="#menu">Our food</a><a href="#order">Order online</a><a href="#about">Our story</a><a href="#why">Why Rombo</a><a href="#visit">Find us</a></nav>
+<a class="btn" href="#visit">Visit Rombo ↗</a>
+</div></header>
+<main>
+<section class="hero" id="home"><div class="wrap hero-grid"><div>
+<div class="eyebrow">A taste of the Swahili coast</div>
+<h1>Big flavour.<br><em>Rombo style.</em></h1>
+<p class="lead">Craving a satisfying meal packed with Swahili flavour? Come through to Rombo Dishes for hearty portions, aromatic spices and the kind of lunch that makes you want to bring a friend next time.</p>
+<div class="actions"><a class="btn" href="#order">Order online ↓</a><a class="btn light" href="#menu">Explore the flavours</a><a class="btn light" href="https://maps.app.goo.gl/yBTchvufV5MhGrkK6?g_st=ic" target="_blank" rel="noopener">Get directions ↗</a></div>
+<div class="micro"><span style="font-size:1.25rem">✦</span><div><strong>Flavourful. Filling. Great value.</strong><br>Find us on Gandhi Avenue, Nairobi.</div></div>
+</div>
+<div class="hero-visual"><img class="hero-img" src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1100&q=85" alt="Colourful, flavourful meal with rice and fresh ingredients">
+<div class="float f1"><strong>🍛 Coastal comfort</strong><small>Spices, warmth and flavour</small></div><div class="float f2"><strong>🥘 Generous portions</strong><small>Come hungry, leave satisfied</small></div></div>
+</div></section>
+<div class="marquee">SWahili flavour <span>✦</span> Hearty meals <span>✦</span> Good value <span>✦</span> Gandhi Avenue, Nairobi</div>
+<section class="menu" id="menu"><div class="wrap">
+<div class="head"><div class="eyebrow">A plate full of flavour</div><h2>What are you craving today?</h2><p>Discover the kind of comforting coastal flavours Swahili food lovers come for. Ask our team which dishes are available today.</p></div>
+<div class="food-grid">
+<article class="food"><img src="https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=900&q=80" alt="Spiced rice served with accompaniments"><div class="food-body"><h3>Swahili Pilau</h3><p>Fragrant rice layered with warm spices for a deeply satisfying classic.</p><div class="food-bottom"><span class="pill">Coastal classic</span><span class="ask">Ask today's price</span></div></div></article>
+<article class="food"><img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=900&q=80" alt="Aromatic biryani rice dish"><div class="food-body"><h3>Flavour-Packed Biryani</h3><p>Aromatic, colourful and full of character — a favourite for a proper meal.</p><div class="food-bottom"><span class="pill">Rich & aromatic</span><span class="ask">Ask today's price</span></div></div></article>
+<article class="food"><img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80" alt="Freshly prepared home-style meal"><div class="food-body"><h3>Swahili Home-Style Plates</h3><p>Comforting, well-seasoned dishes inspired by the tastes of the coast.</p><div class="food-bottom"><span class="pill">Comfort food</span><span class="ask">Ask today's price</span></div></div></article>
+<article class="food"><img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=80" alt="Tender cooked meat with sides"><div class="food-body"><h3>Hearty Meat Dishes</h3><p>Choose a filling plate and enjoy the flavours that make lunch worth the trip.</p><div class="food-bottom"><span class="pill">A proper meal</span><span class="ask">Ask today's price</span></div></div></article>
+<article class="food"><img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80" alt="A colourful rice and vegetable dish"><div class="food-body"><h3>Rice & Sides</h3><p>Build a satisfying plate with the sides and accompaniments available today.</p><div class="food-bottom"><span class="pill">Mix your plate</span><span class="ask">Ask today's price</span></div></div></article>
+<article class="food"><img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80" alt="A shared meal ready to serve"><div class="food-body"><h3>Sharing Platters</h3><p>Planning lunch with friends or colleagues? Ask about available tray-style meals.</p><div class="food-bottom"><span class="pill">Made to share</span><span class="ask">Ask availability</span></div></div></article>
+</div>
+<p class="note">Menu descriptions are illustrative of Swahili cuisine, not a confirmed item-by-item menu. Please confirm dishes, prices and availability directly with Rombo Dishes.</p>
+</div></section>
+
+<section class="menu" id="order"><div class="wrap">
+<div class="head"><div class="eyebrow">Order from Rombo</div><h2>Make it a takeaway or delivery.</h2><p>Choose available items from the live menu, then send your order to the kitchen. Prices and availability are controlled by Rombo staff.</p></div>
+<div id="backend-status" role="status" style="padding:14px 18px;border-radius:14px;background:#f8e5c9;color:#69401f;margin-bottom:20px">Backend setup required: add your Supabase project details to <code>supabase-config.js</code>.</div>
+<div id="order-menu" class="food-grid"><p>Menu items will appear here after Supabase is configured and menu items are added in the admin dashboard.</p></div>
+<div style="margin-top:30px;background:white;border:1px solid var(--line);border-radius:22px;padding:24px">
+<h3 style="margin-top:0">Your order</h3><div id="cart-lines">Your cart is empty.</div><p><strong>Total: KSh <span id="cart-total">0</span></strong></p>
+<form id="checkout-form" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px">
+<label>Full name<input name="customer_name" required maxlength="100" autocomplete="name" style="display:block;width:100%;padding:12px;border:1px solid #cfc1ac;border-radius:10px;margin-top:6px"></label>
+<label>Phone number<input name="phone" required maxlength="20" autocomplete="tel" placeholder="07xx xxx xxx" style="display:block;width:100%;padding:12px;border:1px solid #cfc1ac;border-radius:10px;margin-top:6px"></label>
+<label>Fulfilment<select name="fulfilment" id="fulfilment" required style="display:block;width:100%;padding:12px;border:1px solid #cfc1ac;border-radius:10px;margin-top:6px"><option value="pickup">Pickup</option><option value="delivery">Delivery</option></select></label>
+<label>Delivery address (required for delivery)<input name="delivery_address" id="delivery-address" maxlength="300" placeholder="Building, street, area" style="display:block;width:100%;padding:12px;border:1px solid #cfc1ac;border-radius:10px;margin-top:6px"></label>
+<label>Payment method<select name="payment_method" id="payment-method" required style="display:block;width:100%;padding:12px;border:1px solid #cfc1ac;border-radius:10px;margin-top:6px"><option value="cash_or_mpesa_on_collection">Cash or M-Pesa on pickup/delivery</option><option value="online_mpesa" disabled>Online M-Pesa (not configured yet)</option></select></label>
+<label>Notes (optional)<input name="notes" maxlength="500" placeholder="Any instructions" style="display:block;width:100%;padding:12px;border:1px solid #cfc1ac;border-radius:10px;margin-top:6px"></label>
+<div style="display:flex;align-items:end"><button class="btn" type="submit">Place order</button></div>
+</form><p id="checkout-message" role="status" aria-live="polite" style="line-height:1.6"></p>
+<p class="note">Online M-Pesa is intentionally disabled until Safaricom Daraja credentials and a secure server-side payment callback are configured and tested. No payment is taken by this demo.</p>
+</div></div></section>
+
+<section class="value" id="why"><div class="wrap"><div class="head"><div class="eyebrow">Why make it Rombo?</div><h2>Lunch that hits the spot.</h2><p>Rombo Dishes is all about a satisfying, no-fuss food stop when you want good flavour and a generous plate.</p></div>
+<div class="value-grid"><div class="value-card"><div class="ico">🌶</div><h3>Swahili-inspired flavour</h3><p>Enjoy the rich spices and comforting tastes associated with coastal-style cooking.</p></div><div class="value-card"><div class="ico">🍽</div><h3>Generous plates</h3><p>Come for a filling lunch, and bring a friend who appreciates a proper meal.</p></div><div class="value-card"><div class="ico">📍</div><h3>Easy to find</h3><p>We’re on Gandhi Avenue in Nairobi. Open the map and plan your visit.</p></div></div></div></section>
+<section id="about"><div class="wrap story-grid"><img class="story-img" src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1100&q=85" alt="Warm restaurant dining scene"><div class="story-copy"><div class="eyebrow">Karibu to Rombo</div><h2>Coastal flavour, right here in Nairobi.</h2><p>Some meals are more than just food — they’re the comfort of familiar spices, a generous serving, and a reason to pause and enjoy your day. Rombo Dishes brings Swahili cuisine to Gandhi Avenue for people looking for a flavourful, satisfying meal.</p><p>Whether you’re taking a lunch break or meeting a friend, make Rombo your next food stop.</p><div class="check"><span>✓</span> A casual, food-first experience</div><div class="check"><span>✓</span> Flavourful Swahili-inspired choices</div><div class="check"><span>✓</span> Convenient Gandhi Avenue location</div><a class="btn dark" href="https://maps.app.goo.gl/yBTchvufV5MhGrkK6?g_st=ic" target="_blank" rel="noopener">Come find us ↗</a></div></div></section>
+<section class="cta"><div class="wrap"><div class="cta-box"><div><h2>Your next satisfying lunch is closer than you think.</h2><p>Follow the flavour to Rombo Dishes, Gandhi Avenue, Nairobi.</p></div><a class="btn" href="https://maps.app.goo.gl/yBTchvufV5MhGrkK6?g_st=ic" target="_blank" rel="noopener">Get directions ↗</a></div></div></section>
+<section class="contact" id="visit"><div class="wrap contact-grid"><div><div class="eyebrow">Come through</div><h2>Find your way<br>to <span style="color:var(--orange)">Rombo.</span></h2><p>We’re ready to welcome you for a flavourful meal. Use Google Maps for directions, or call ahead to check today’s menu and availability.</p><div class="details">
+<div class="detail"><div class="detail-icon">⌖</div><div><small>Location</small><strong>MRVG+8G6, Gandhi Avenue, Nairobi, Kenya</strong></div></div>
+<div class="detail"><div class="detail-icon">☎</div><div><small>Call Rombo Dishes</small><strong><a href="tel:+254115631411">+254 115 631 411</a></strong></div></div>
+<div class="detail"><div class="detail-icon">◷</div><div><small>Listed opening hours</small><strong>Monday–Friday, 9:00 AM–5:00 PM</strong><br><small>Confirm before travelling; hours may change.</small></div></div>
+<a class="btn" href="https://maps.app.goo.gl/yBTchvufV5MhGrkK6?g_st=ic" target="_blank" rel="noopener">Open Google Maps ↗</a>
+<a class="btn dark" href="tel:+254115631411">Call us</a>
+<a class="btn whatsapp" href="https://wa.me/254115631411?text=Hello%20Rombo%20Dishes%2C%20I%27d%20like%20to%20ask%20about%20today%27s%20menu." target="_blank" rel="noopener noreferrer" aria-label="Chat with Rombo Dishes on WhatsApp">WhatsApp</a>
+</div></div>
+<iframe class="map" title="Rombo Dishes location on Google Maps" src="https://maps.google.com/maps?q=Rombo%20Dishes%20Swahili%20Cuisine%2C%20Gandhi%20Avenue%2C%20Nairobi&t=&z=16&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
+</div></section>
+</main>
+<footer><div class="wrap foot"><div><strong>ROMBO DISHES</strong> · A taste of the Swahili coast.</div><div class="footlinks"><a href="#menu">Our food</a><a href="#about">About</a><a href="#visit">Location</a></div><div>© <span id="year"></span> Rombo Dishes</div></div></footer>
+<script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./supabase-config.js"></script>
+<script src="./app.js"></script>
+</body></html>
