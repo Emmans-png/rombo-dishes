@@ -64,7 +64,7 @@ footer{background:#111c15;color:#d4dfd1;padding:28px 0}.foot{display:flex;justif
 
 <section class="menu" id="order"><div class="wrap">
 <div class="head"><div class="eyebrow">Order from Rombo</div><h2>Make it a takeaway or delivery.</h2><p>Choose available items from the live menu, then send your order to the kitchen. Prices and availability are controlled by Rombo staff.</p></div>
-<div id="backend-status" role="status" style="padding:14px 18px;border-radius:14px;background:#f8e5c9;color:#69401f;margin-bottom:20px">Backend setup required: add your Supabase project details to <code>supabase-config.js</code>.</div>
+<div id="backend-status" role="status" hidden style="padding:14px 18px;border-radius:14px;background:#f8e5c9;color:#69401f;margin-bottom:20px"></div>
 <div id="order-menu" class="food-grid"><p>Menu items will appear here after Supabase is configured and menu items are added in the admin dashboard.</p></div>
 <div style="margin-top:30px;background:white;border:1px solid var(--line);border-radius:22px;padding:24px">
 <h3 style="margin-top:0">Your order</h3><div id="cart-lines">Your cart is empty.</div><p><strong>Total: KSh <span id="cart-total">0</span></strong></p>
@@ -95,7 +95,7 @@ footer{background:#111c15;color:#d4dfd1;padding:28px 0}.foot{display:flex;justif
 <iframe class="map" title="Rombo Dishes location on Google Maps" src="https://maps.google.com/maps?q=Rombo%20Dishes%20Swahili%20Cuisine%2C%20Gandhi%20Avenue%2C%20Nairobi&t=&z=16&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
 </div></section>
 </main>
-<footer><div class="wrap foot"><div><strong>ROMBO DISHES</strong> · A taste of the Swahili coast.</div><div class="footlinks"><a href="#menu">Our food</a><a href="#about">About</a><a href="#visit">Location</a></div><div>© <span id="year"></span> Rombo Dishes</div></div></footer>
+<footer><div class="wrap foot"><div><strong>ROMBO DISHES</strong> · A taste of the Swahili coast.</div><div class="footlinks"><a href="#menu">Our food</a><a href="#about">About</a><a href="#visit">Location</a><a href="track.html">Track order</a></div><div>© <span id="year"></span> Rombo Dishes</div></div></footer>
 <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="./supabase-config.js"></script>

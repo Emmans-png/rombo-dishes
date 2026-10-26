@@ -12,7 +12,7 @@
   const ready = window.supabase && url.startsWith('https://') && !url.includes('YOUR_PROJECT_ID') && key && !key.includes('YOUR_SUPABASE');
   const money = n => new Intl.NumberFormat('en-KE', {maximumFractionDigits: 2}).format(Number(n || 0));
   const safe = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  function setStatus(text, error=false) { status.textContent=text; status.style.background=error?'#f8d7da':'#f8e5c9'; status.style.color=error?'#842029':'#69401f'; }
+  function setStatus(text, error=false) { status.hidden=!error; if(error){status.textContent=text;status.style.background='#f8d7da';status.style.color='#842029';} }
   function drawCart() {
     const items=[...cart.values()];
     if (!items.length) cartEl.textContent='Your cart is empty.';
@@ -42,7 +42,7 @@
     client=window.supabase.createClient(url,key);
     client.from('menu_items').select('id,name,description,price_kes,image_url,is_available').eq('is_available',true).order('name').then(({data,error})=>{
       if(error){setStatus('Could not load the menu. Check your Supabase URL, key, schema and policies.',true);console.error(error);return;}
-      setStatus('Connected to Rombo Dishes menu. Orders are submitted securely through the backend.'); renderMenu(data||[]);
+      renderMenu(data||[]);
     });
   }
   document.getElementById('fulfilment').addEventListener('change',e=>{document.getElementById('delivery-address').required=e.target.value==='delivery';});
@@ -58,6 +58,7 @@
       if(error) throw error;
       if(!data?.order_number) throw new Error(data?.error || 'The server did not confirm the order.');
       message.textContent=`Order received! Your reference is ${data.order_number}. Payment: ${data.payment_message || 'Pay on pickup/delivery.'} Please call Rombo to confirm fulfilment.`;
+      const trackingLink=document.createElement('a');trackingLink.href=`track.html?order=${encodeURIComponent(data.order_number)}`;trackingLink.textContent='Track this order';message.append(document.createElement('br'),trackingLink);
       cart.clear(); drawCart(); form.reset(); document.getElementById('delivery-address').required=false;
     } catch(err) { console.error(err); message.textContent='Order was not confirmed. Please check the setup and try again, or call Rombo Dishes. Details: '+(err.message||'request failed'); }
     finally {submit.disabled=false;submit.textContent='Place order';}

@@ -45,7 +45,7 @@ Deno.serve(async (req) => {
     const lines = menu.map((m) => ({ menu_item_id: m.id, item_name: m.name, unit_price_kes: Number(m.price_kes), quantity: quantities.get(m.id)!, line_total_kes: Number(m.price_kes) * quantities.get(m.id)! }));
     const total = Math.round(lines.reduce((sum, l) => sum + l.line_total_kes, 0) * 100) / 100;
     if (!Number.isFinite(total) || total <= 0) return json({ error: "Order total is invalid." }, 400);
-    const order_number = `ROM-${new Date().toISOString().slice(0,10).replaceAll("-","")}-${crypto.randomUUID().slice(0,8).toUpperCase()}`;
+    const order_number = `ROM-${new Date().toISOString().slice(0,10).replaceAll("-","")}-${crypto.randomUUID().replaceAll("-","").slice(0,16).toUpperCase()}`;
     const { data: order, error: orderError } = await admin.from("orders").insert({ order_number, customer_name, phone, fulfilment, delivery_address: fulfilment === "delivery" ? delivery_address : "", payment_method, payment_status: "unpaid", order_status: "received", notes, total_kes: total }).select("id,order_number,total_kes").single();
     if (orderError || !order) { console.error(orderError); return json({ error: "Could not save order. Please try again." }, 500); }
     const { error: linesError } = await admin.from("order_items").insert(lines.map((l) => ({ ...l, order_id: order.id })));

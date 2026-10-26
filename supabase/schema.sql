@@ -38,6 +38,10 @@ create table if not exists public.orders (
   created_at timestamptz not null default now()
 );
 
+alter table public.orders
+  add column if not exists tracking_update text not null default ''
+  check (char_length(tracking_update) <= 500);
+
 create table if not exists public.order_items (
   id uuid primary key default gen_random_uuid(),
   order_id uuid not null references public.orders(id) on delete cascade,
